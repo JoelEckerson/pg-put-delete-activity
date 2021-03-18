@@ -7,7 +7,7 @@ $(document).ready(function(){
 function addClickHandlers() {
   $('#submitBtn').on('click', handleSubmit);
   $( '#bookShelf' ).on( 'click', '.deleteButton', deleteBook );
-
+  $( '#bookShelf' ).on( 'click', '.readButton', readBook );
   // TODO - Add code for edit & delete buttons
 }
 
@@ -61,6 +61,9 @@ function renderBooks(books) {
         <td>
           <button class="deleteButton">Delete</button>
         </td>
+        <td>
+          <button class="readButton">Mark as Read</button>
+        </td>
       </tr>
     `);
   }
@@ -84,7 +87,21 @@ function deleteBook(){
   });
 }//end deleteBook
 
-
+function readBook(){
+  const myId = $( this ).data( 'id' );
+  console.log( 'in readBook:', myId );
+  // ajax call of type PUT to update db
+  $.ajax({
+      method: 'PUT',
+      url: '/books/' + myId
+  }).then( function( response ){
+      console.log( 'back from PUT:', response );
+      refreshBooks();
+  }).catch( function ( err ){
+      console.log( err );
+      alert( 'nope' );
+  }) // end ajax
+} // end reserveItem
 
 
 
