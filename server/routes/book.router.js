@@ -36,12 +36,32 @@ router.post('/',  (req, res) => {
 
 // TODO - PUT
 // Updates a book to show that it has been read
+router.put( '/:id', ( req, res )=>{
+  console.log( 'awesome_reads PUT:', req.params );
+  let queryString = `UPDATE "books" SET "isRead"=true WHERE "id"=$1;`;
+  pool.query( queryString, [ req.params.id ] ).then( ( results )=>{
+      res.sendStatus( 200 );
+  }).catch( ( err )=>{
+      console.log( err );
+      res.sendStatus( 500 );
+  })
+})
 // Request must include a parameter indicating what book to update - the id
 // Request body must include the content to update - the status
 
 
 // TODO - DELETE 
 // Removes a book to show that it has been read
+router.delete( '/:id', ( req, res )=>{
+  console.log( 'awesome_reads DELETE:', req.params );
+  let queryString = `DELETE FROM "books" WHERE "id"=$1`;
+  pool.query( queryString, [ req.params.id ] ).then( ( results )=>{
+      res.sendStatus( 200 );
+  }).catch( ( err )=>{
+      console.log( err );
+      res.sendStatus( 500 );
+  })
+}) // end delete
 // Request must include a parameter indicating what book to update - the id
 
 
